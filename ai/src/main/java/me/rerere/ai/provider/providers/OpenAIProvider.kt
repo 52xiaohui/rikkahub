@@ -313,7 +313,6 @@ object OpenAIProvider : Provider<ProviderSetting.OpenAI> {
     }
 
     private fun buildMessages(messages: List<UIMessage>) = buildJsonArray {
-        111
         messages
             .filter {
                 it.isValidToUpload()
