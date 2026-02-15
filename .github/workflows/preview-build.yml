@@ -19,6 +19,12 @@ jobs:
           java-version: '17'
           cache: gradle
 
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+
+      - name: Build web-ui static files
+        run: cd web-ui && bun install && bun run build
+
       - name: Prepare google-services.json for preview build
         run: |
           APP_ID="me.rerere.rikkahub"
