@@ -6,6 +6,8 @@ on:
 jobs:
   build-preview:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - uses: actions/checkout@v4
@@ -17,9 +19,13 @@ jobs:
           java-version: '17'
           cache: gradle
 
-      - name: Prepare google-services.json for preview package
+      - name: Prepare google-services.json for preview build
         run: |
-          cat > app/google-services.json <<'EOF'
+          APP_ID="me.rerere.rikkahub"
+          PREVIEW_APP_ID="${APP_ID}.preview"
+
+          # Dummy values for local/fork preview CI build only (not for production Firebase use).
+          cat > app/google-services.json <<EOF
           {
             "project_info": {
               "project_number": "1234567890",
@@ -29,14 +35,14 @@ jobs:
             "client": [
               {
                 "client_info": {
-                  "mobilesdk_app_id": "1:1234567890:android:previewbuild",
+                  "mobilesdk_app_id": "1:1234567890:android:abcdef1234567890",
                   "android_client_info": {
-                    "package_name": "me.rerere.rikkahub.preview"
+                    "package_name": "${PREVIEW_APP_ID}"
                   }
                 },
                 "api_key": [
                   {
-                    "current_key": "preview-build"
+                    "current_key": "AIzaSyDUMMYPreviewBuildKey1234567890"
                   }
                 ]
               }
@@ -51,5 +57,6 @@ jobs:
       - name: Upload preview artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: rikkahub-preview-unsigned-apk
+          name: preview-unsigned-apk-${{ github.sha }}
           path: app/build/outputs/apk/preview/*.apk
+          if-no-files-found: error
