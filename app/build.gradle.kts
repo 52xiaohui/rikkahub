@@ -94,6 +94,15 @@ android {
             isShrinkResources = false
             isProfileable = true
         }
+        create("preview") {
+            initWith(getByName("release"))
+            matchingFallbacks.add("release")
+            signingConfig = null
+            applicationIdSuffix = ".preview"
+            versionNameSuffix = "-preview"
+            isMinifyEnabled = false
+            isShrinkResources = false
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

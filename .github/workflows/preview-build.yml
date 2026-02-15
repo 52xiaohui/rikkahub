@@ -1,0 +1,62 @@
+name: Preview Build (Unsigned)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-preview:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Prepare google-services.json for preview build
+        run: |
+          APP_ID="me.rerere.rikkahub"
+          PREVIEW_APP_ID="${APP_ID}.preview"
+
+          # Dummy values for local/fork preview CI build only (not for production Firebase use).
+          cat > app/google-services.json <<EOF
+          {
+            "project_info": {
+              "project_number": "1234567890",
+              "project_id": "preview-build",
+              "storage_bucket": "preview-build.appspot.com"
+            },
+            "client": [
+              {
+                "client_info": {
+                  "mobilesdk_app_id": "1:1234567890:android:abcdef1234567890",
+                  "android_client_info": {
+                    "package_name": "${PREVIEW_APP_ID}"
+                  }
+                },
+                "api_key": [
+                  {
+                    "current_key": "AIzaSyDUMMYPreviewBuildKey1234567890"
+                  }
+                ]
+              }
+            ],
+            "configuration_version": "1"
+          }
+          EOF
+
+      - name: Build preview APK
+        run: ./gradlew :app:assemblePreview
+
+      - name: Upload preview artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: preview-unsigned-apk-${{ github.sha }}
+          path: app/build/outputs/apk/preview/*.apk
+          if-no-files-found: error
