@@ -100,6 +100,18 @@ object ModelRegistry {
         toolReasoningAbility()
     }
 
+    val GEMINI_3_1_PRO_PREVIEW = defineModel {
+        tokens("gemini", "3", "1", "pro", "preview")
+        visionInput()
+        toolReasoningAbility()
+    }
+
+    val GEMINI_3_1_PRO_PREVIEW_CUSTOMTOOLS = defineModel {
+        tokens("gemini", "3", "1", "pro", "preview", "customtools")
+        visionInput()
+        toolReasoningAbility()
+    }
+
     val GEMINI_FLASH_LATEST = defineModel {
         exact("gemini-flash-latest")
         visionInput()
@@ -117,7 +129,7 @@ object ModelRegistry {
     }
 
     val GEMINI_3_SERIES = defineGroup {
-        add(GEMINI_3_PRO, GEMINI_3_FLASH)
+        add(GEMINI_3_PRO, GEMINI_3_FLASH, GEMINI_3_1_PRO_PREVIEW, GEMINI_3_1_PRO_PREVIEW_CUSTOMTOOLS)
     }
 
     val GEMINI_SERIES = defineGroup {
@@ -148,8 +160,14 @@ object ModelRegistry {
         toolReasoningAbility()
     }
 
+    private val CLAUDE_SONNET_4_6 = defineModel {
+        tokens("claude", "sonnet", "4", "6")
+        visionInput()
+        toolReasoningAbility()
+    }
+
     val CLAUDE_SERIES = defineGroup {
-        add(CLAUDE_SONNET_3_5, CLAUDE_SONNET_3_7, CLAUDE_4, CLAUDE_4_5)
+        add(CLAUDE_SONNET_3_5, CLAUDE_SONNET_3_7, CLAUDE_4, CLAUDE_4_5, CLAUDE_SONNET_4_6)
     }
 
     private val DEEPSEEK_V3_MODEL = defineModel {
@@ -192,6 +210,12 @@ object ModelRegistry {
 
     private val QWEN_3 = defineModel {
         tokens("qwen", "3")
+        toolReasoningAbility()
+    }
+
+    private val QWEN_3_5 = defineModel {
+        tokens("qwen", "3", "5")
+        visionInput()
         toolReasoningAbility()
     }
 
@@ -291,12 +315,15 @@ object ModelRegistry {
         GEMINI_NANO_BANANA,
         GEMINI_3_PRO,
         GEMINI_3_FLASH,
+        GEMINI_3_1_PRO_PREVIEW,
+        GEMINI_3_1_PRO_PREVIEW_CUSTOMTOOLS,
         GEMINI_FLASH_LATEST,
         GEMINI_PRO_LATEST,
         CLAUDE_SONNET_3_5,
         CLAUDE_SONNET_3_7,
         CLAUDE_4,
         CLAUDE_4_5,
+        CLAUDE_SONNET_4_6,
         DEEPSEEK_V3_MODEL,
         DEEPSEEK_CHAT,
         DEEPSEEK_R1_MODEL,
@@ -304,6 +331,7 @@ object ModelRegistry {
         DEEPSEEK_V3_1,
         DEEPSEEK_V3_2,
         QWEN_3,
+        QWEN_3_5,
         DOUBAO_1_6,
         DOUBAO_1_8,
         GROK_4,

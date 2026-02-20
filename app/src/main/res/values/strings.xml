@@ -152,7 +152,7 @@
   <string name="backup_page_files">Files</string>
   <string name="backup_page_import_chatbox_desc">Import data from ChatBox</string>
   <string name="backup_page_import_desc">Import local backup file</string>
-  <string name="backup_page_import_export">Import and Export</string>
+  <string name="backup_page_import_export">Local</string>
   <string name="backup_page_import_from_chatbox">Import from ChatBox</string>
   <string name="backup_page_import_from_other_app">Import from other app</string>
   <string name="backup_page_importing">Importing...</string>
@@ -809,5 +809,36 @@
   <string name="setting_page_web_server_stop">Stop</string>
   <string name="setting_display_page_enable_latex_rendering_title">Enable LaTeX Rendering</string>
   <string name="setting_display_page_enable_latex_rendering_desc">Render mathematical expressions and formulas using LaTeX syntax</string>
+  <string name="favorite_page_title">Favorites</string>
+  <string name="favorite_page_no_favorites">No favorites yet</string>
+  <string name="favorite_page_removed">Favorite removed</string>
+  <string name="favorite_page_untitled_conversation">Untitled Conversation</string>
+  <string name="chat_message_add_favorite">Add Favorite</string>
+  <string name="chat_message_remove_favorite">Remove Favorite</string>
+  <string name="chat_page_menu_ai_translator">AI Translator</string>
+  <string name="chat_page_menu_image_generation">Image Generation</string>
+  <string name="backup_page_reminder">Reminder</string>
+  <string name="backup_page_reminder_title">Backup Reminder</string>
+  <string name="backup_page_reminder_never_backed_up">Never backed up</string>
+  <string name="backup_page_reminder_last_days">Last backup %1$d days ago</string>
+  <string name="backup_page_reminder_enable">Enable Backup Reminder</string>
+  <string name="backup_page_reminder_interval">Reminder Interval</string>
+  <string name="backup_page_reminder_interval_days">%1$d days</string>
+  <string name="backup_page_reminder_no_record">No backup time recorded</string>
+  <string name="backup_page_reminder_last_time">Last backup: %1$s</string>
+  <string name="backup_page_reminder_dismiss">Dismiss</string>
+  <string name="deep_thinking_seconds">Thought for %1$.1f seconds</string>
+  <string name="chat_page_search_chats">Search Chats</string>
+  <string name="history_page_search_messages">Search Messages</string>
+  <string name="search_page_title">Search Messages</string>
+  <string name="search_page_rebuild_index">Rebuild Message Index</string>
+  <string name="search_page_rebuild_index_desc">This will clear the existing index and re-scan all chat history. The more messages, the longer it takes. Continue?</string>
+  <string name="search_page_rebuild_button">Rebuild Index</string>
+  <string name="search_page_placeholder">Search message content...</string>
+  <string name="search_page_rebuilding_simple">Rebuilding index...</string>
+  <string name="search_page_hint">Enter keywords and press Search to find messages</string>
+  <string name="search_page_no_results">No results</string>
+  <string name="search_page_untitled">Untitled</string>
+  <string name="search_page_rebuilding">Rebuilding index (%1$d / %2$d)...</string>
 </resources>
 

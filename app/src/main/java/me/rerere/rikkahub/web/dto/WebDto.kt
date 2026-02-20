@@ -183,6 +183,16 @@ data class ForkConversationResponse(
 )
 
 @Serializable
+data class MessageSearchResultDto(
+    val nodeId: String,
+    val messageId: String,
+    val conversationId: String,
+    val title: String,
+    val updateAt: Long,
+    val snippet: String,
+)
+
+@Serializable
 data class WebAuthTokenResponse(
     val token: String,
     val expiresAt: Long,
@@ -208,7 +218,8 @@ data class ConversationUpdateEvent(
 data class ConversationSnapshotEvent(
     val type: String = "snapshot",
     val seq: Long,
-    val conversation: ConversationDto
+    val conversation: ConversationDto,
+    val serverTime: Long = System.currentTimeMillis()
 )
 
 @Serializable
@@ -220,7 +231,8 @@ data class ConversationNodeUpdateEvent(
     val nodeIndex: Int,
     val node: MessageNodeDto,
     val updateAt: Long,
-    val isGenerating: Boolean
+    val isGenerating: Boolean,
+    val serverTime: Long = System.currentTimeMillis()
 )
 
 @Serializable

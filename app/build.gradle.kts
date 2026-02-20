@@ -1,3 +1,4 @@
+import com.android.build.api.dsl.Packaging
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import java.io.FileInputStream
@@ -20,8 +21,8 @@ android {
         applicationId = "me.rerere.rikkahub"
         minSdk = 26
         targetSdk = 36
-        versionCode = 135
-        versionName = "1.9.0-beta.1"
+        versionCode = 136
+        versionName = "2.0.0-beta.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -118,6 +119,11 @@ android {
     androidResources {
         generateLocaleConfig = true
     }
+    packaging {
+        jniLibs {
+            useLegacyPackaging = true
+        }
+    }
     tasks.withType<KotlinCompile>().configureEach {
         compilerOptions.optIn.add("androidx.compose.material3.ExperimentalMaterial3Api")
         compilerOptions.optIn.add("androidx.compose.material3.ExperimentalMaterial3ExpressiveApi")
@@ -129,7 +135,14 @@ android {
         compilerOptions.optIn.add("kotlin.uuid.ExperimentalUuidApi")
         compilerOptions.optIn.add("kotlin.time.ExperimentalTime")
         compilerOptions.optIn.add("kotlinx.coroutines.ExperimentalCoroutinesApi")
+        compilerOptions.optIn.add("androidx.navigation3.runtime.ExperimentalNavigation3Api")
     }
+}
+
+composeCompiler {
+    stabilityConfigurationFiles.add(
+        project.layout.projectDirectory.file("compose_compiler_config.conf")
+    )
 }
 
 tasks.register("buildAll") {
@@ -165,14 +178,11 @@ dependencies {
     implementation(libs.androidx.material3.adaptive)
     implementation(libs.androidx.material3.adaptive.layout)
 
-    // Navigation 2
-    implementation(libs.androidx.navigation2)
-
     // Navigation 3
-//    implementation(libs.androidx.navigation3.runtime)
-//    implementation(libs.androidx.navigation3.ui)
-//    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
-//    implementation(libs.androidx.material3.adaptive.navigation3)
+    implementation(libs.androidx.navigation3.runtime)
+    implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
+    implementation(libs.androidx.material3.adaptive.navigation3)
 
     // Firebase
     implementation(platform(libs.firebase.bom))
@@ -266,6 +276,9 @@ dependencies {
 
     // jmDNS (mDNS/Bonjour for .local hostname)
     implementation(libs.jmdns)
+
+    // sqlite-android (requery SQLite for Android)
+    implementation(libs.sqlite.android)
 
     // modules
     implementation(project(":ai"))

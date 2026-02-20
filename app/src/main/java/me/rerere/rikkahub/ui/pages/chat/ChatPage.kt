@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
+import me.rerere.rikkahub.ui.context.Navigator
 import com.composables.icons.lucide.List
 import com.composables.icons.lucide.ListTree
 import com.composables.icons.lucide.Lucide
@@ -78,7 +78,7 @@ import org.koin.core.parameter.parametersOf
 import kotlin.uuid.Uuid
 
 @Composable
-fun ChatPage(id: Uuid, text: String?, files: List<Uri>) {
+fun ChatPage(id: Uuid, text: String?, files: List<Uri>, nodeId: Uuid? = null) {
     val vm: ChatVM = koinViewModel(
         parameters = {
             parametersOf(id.toString())
@@ -148,8 +148,18 @@ fun ChatPage(id: Uuid, text: String?, files: List<Uri>) {
 
     val chatListState = rememberLazyListState()
     LaunchedEffect(vm) {
-        if (!vm.chatListInitialized && chatListState.layoutInfo.totalItemsCount > 0) {
+        if (nodeId == null && !vm.chatListInitialized && chatListState.layoutInfo.totalItemsCount > 0) {
             chatListState.scrollToItem(chatListState.layoutInfo.totalItemsCount)
+            vm.chatListInitialized = true
+        }
+    }
+
+    LaunchedEffect(nodeId, conversation.messageNodes.size) {
+        if (nodeId != null && conversation.messageNodes.isNotEmpty() && !vm.chatListInitialized) {
+            val index = conversation.messageNodes.indexOfFirst { it.id == nodeId }
+            if (index >= 0) {
+                chatListState.scrollToItem(index)
+            }
             vm.chatListInitialized = true
         }
     }
@@ -229,7 +239,7 @@ private fun ChatPageContent(
     bigScreen: Boolean,
     conversation: Conversation,
     drawerState: DrawerState,
-    navController: NavHostController,
+    navController: Navigator,
     vm: ChatVM,
     chatListState: LazyListState,
     enableWebSearch: Boolean,
@@ -241,10 +251,6 @@ private fun ChatPageContent(
     val scope = rememberCoroutineScope()
     val toaster = LocalToaster.current
     var previewMode by rememberSaveable { mutableStateOf(false) }
-
-    LaunchedEffect(loadingJob) {
-        inputState.loading = loadingJob != null
-    }
 
     TTSAutoPlay(vm = vm, setting = setting, conversation = conversation)
 
@@ -275,6 +281,7 @@ private fun ChatPageContent(
             bottomBar = {
                 ChatInput(
                     state = inputState,
+                    loading = loadingJob != null,
                     settings = setting,
                     conversation = conversation,
                     mcpManager = vm.mcpManager,
@@ -407,6 +414,9 @@ private fun ChatPageContent(
                 },
                 onToolApproval = { toolCallId, approved, reason ->
                     vm.handleToolApproval(toolCallId, approved, reason)
+                },
+                onToggleFavorite = { node ->
+                    vm.toggleMessageFavorite(node)
                 },
             )
         }

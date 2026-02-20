@@ -6,6 +6,8 @@ import me.rerere.rikkahub.ui.pages.backup.BackupVM
 import me.rerere.rikkahub.ui.pages.chat.ChatVM
 import me.rerere.rikkahub.ui.pages.debug.DebugVM
 import me.rerere.rikkahub.ui.pages.developer.DeveloperVM
+import me.rerere.rikkahub.ui.pages.favorite.FavoriteVM
+import me.rerere.rikkahub.ui.pages.search.SearchVM
 import me.rerere.rikkahub.ui.pages.history.HistoryVM
 import me.rerere.rikkahub.ui.pages.imggen.ImgGenVM
 import me.rerere.rikkahub.ui.pages.prompts.PromptVM
@@ -26,7 +28,8 @@ val viewModelModule = module {
             chatService = get(),
             updateChecker = get(),
             analytics = get(),
-            filesManager = get()
+            filesManager = get(),
+            favoriteRepository = get(),
         )
     }
     viewModelOf(::SettingVM)
@@ -52,4 +55,6 @@ val viewModelModule = module {
     viewModelOf(::ImgGenVM)
     viewModelOf(::DeveloperVM)
     viewModelOf(::PromptVM)
+    viewModelOf(::FavoriteVM)
+    viewModelOf(::SearchVM)
 }
